@@ -31,11 +31,14 @@ Jomark Pablo Noriega, Luis Antonio Rivera, and Jose Alfredo Herrera, “Machine 
 
 ‌M. Sitt and T. Wu, “Evaluation of Credit Risk.” Accessed: Oct. 04, 2024. [Online]. Available: https://cs229.stanford.edu/proj2012/SittWu-EvaluationOfCreditRisk.pdf
 
+# Video Link
+https://youtu.be/6M3CsEhZzhw
 
 # Tables
 Gantt Chart: [LINK](https://docs.google.com/spreadsheets/d/1_VUAMo002Tv-8mLRiyFK3bGIlX5s4-en/edit?usp=sharing&ouid=112209367681545806735&rtpof=true&sd=true)
 
 Contribution Table
+
 |Name|Contributions|
 |---|---|
 |Sive|Video Presentation, Potential Results and Discussion|
