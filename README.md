@@ -15,6 +15,7 @@ The core problem is creditworthiness prediction: Accurately assessing an individ
 
 # Dataset
 Link: https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
+
 Description: The Default of Credit Card Clients UCI Dataset contains data on credit card holders in Taiwan and aims to predict whether a client will default on their payment. It includes 30,000 observations and 24 features such as demographics (age, education, marital status, gender), credit card usage (bill statements, payment history), and default payment status (whether the client defaulted the next month).
 
 # Methods
@@ -32,7 +33,7 @@ Jomark Pablo Noriega, Luis Antonio Rivera, and Jose Alfredo Herrera, “Machine 
 
 
 # Tables
-Gantt Chart: [LINK}(https://docs.google.com/spreadsheets/d/1_VUAMo002Tv-8mLRiyFK3bGIlX5s4-en/edit?usp=sharing&ouid=112209367681545806735&rtpof=true&sd=true)
+Gantt Chart: [LINK](https://docs.google.com/spreadsheets/d/1_VUAMo002Tv-8mLRiyFK3bGIlX5s4-en/edit?usp=sharing&ouid=112209367681545806735&rtpof=true&sd=true)
 
 Contribution Table
 |Name|Contributions|
