@@ -29,13 +29,17 @@ Metrics and Analysis: Our logistic regression model was found to perform relativ
 However, the visualization of our classification report shows that our model consistently performed better when classifying “0” instances, or instances when a customer did not default. The most striking example of this is in our Recall score, which measures the false negatives. Here, 0 instances had a recall of 96%, while 1 instances only scored 29%. These discrepancies are likely due to an imbalanced dataset. Notably, our dataset contains 30,000 entries, but only 6,636 of those are labeled as “1.” 
 
 Next Steps:
+
 To improve our overall accuracy and reduce the differences in accuracy between 0 and 1 instances, we will use a variety of techniques. First, we will use data augmentation to create new instances of default payment examples (1 instances) so our model is able to better predict those cases. Additionally, the other models we develop will allow us to improve upon these results. Random forest and gradient boosting will allow us to improve our accuracy, F1-score, and ROC-AUC value in further iterations of our project.
 
 Quantitative Metrics:
+
 ![Metrics](image_one.png)
 
 Visualizations:
+
 ![Visual One](image_two.png)
+
 ![Visual Two](image_three.png)
 
 # References
