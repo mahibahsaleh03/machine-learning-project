@@ -19,10 +19,24 @@ Link: https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
 Description: The Default of Credit Card Clients UCI Dataset contains data on credit card holders in Taiwan and aims to predict whether a client will default on their payment. It includes 30,000 observations and 24 features such as demographics (age, education, marital status, gender), credit card usage (bill statements, payment history), and default payment status (whether the client defaulted the next month).
 
 # Methods
-To handle the preprocessing of the data, there are multiple methods to implement prior to applying the dataset to a machine learning model. First, our process will involve data cleaning in order to eliminate inaccurate data. Next, we will make use of feature engineering to obtain better features for the dataset from features that are already present. Lastly, we will address imbalanced data using SMOTE or other methods to address the issue of loan defaults being the minority in our dataset. After processing the data, we will use supervised learning models such as logistic regression, random forest, and gradient boosting. Logistic regression will be helpful in initially classifying the data as default or not and random forest will help improve our predictions. We will also use gradient boosting to gradually improve upon each model.
+In preparation for our implementation of a logistic regression model, we preprocessed our data set with a few different methods. We addressed missing values by filling categorical columns with their most frequent value and numerical columns with the median to reduce outlier influence. We removed duplicate rows to steer away from potential model bias and removed any rows where all bill and payment amounts were zero. Outliers in key financial columns, including LIMIT_BAL (credit limit), BILL_AMT* (bill amounts over six months), and PAY_AMT* (payment amounts over six months), were handled by excluding values below the 1st percentile and above the 99th percentile. We also scaled the data to ensure that our numerical columns would have a similar scale.
 
-# Potential Results and Discussion
-We will use several quantitative metrics to measure the accuracy of our model. First, we will utilize accuracy, the number of times our model correctly predicts loan defaulting. Another is the F1 Score, which measures the precision and recall of our model. Precision measures false positives, approving an untrustworthy individual for a loan. Recall measures false negatives, denying a good credit risk. We will also utilize the Receiver Operating Characteristic curve, which helps us measure the number of false positives versus true positives in our model. Our goal in this project is to create a model that will accurately predict if an individual will default on a loan or not. Stanford researchers Sitt and Wu were able to achieve accuracy of 70% in a similar credit-prediction model, so we hope to achieve similar or greater results. Additionally, we hope to create an ethical model, which does not discriminate based on demographic characteristics or predict vastly different results for slightly different input values.
+As for the model, we chose to implement logistic regression because it is a supervised learning algorithm that is particularly effective with binary classification tasks. We trained the model with a 70-30 train-test split to fully determine its predictive abilities. This model turned out to be simplistic but fairly effective in classifying the data as default and non-default.
+
+# Results and Discussion
+Metrics and Analysis: Our logistic regression model was found to perform relatively well, but there is still room for improvement. For example, our overall accuracy was 81.4%, which is a significant improvement from random guessing. Additionally, our ROC-AUC score was 0.73, which is not poor considering the possible range of values between 0.5 and 1.0. The graph of the ROC curve allows us to see the relationship between our model predicting true positives and false positives. We see that our ability to correctly predict true positives while keeping the number of false positives low increases sharply until about 0.5 true positives, and then increases more slowly. This curve allows us to see this trade-off and make decisions based on our model motivation. In the context of approving loans, we want to protect banks by not approving loans for possible defaulters, but we also want to protect the customer by not denying loans for reliable candidates. The ROC curve allows us to see the interaction of these two goals.
+
+However, the visualization of our classification report shows that our model consistently performed better when classifying “0” instances, or instances when a customer did not default. The most striking example of this is in our Recall score, which measures the false negatives. Here, 0 instances had a recall of 96%, while 1 instances only scored 29%. These discrepancies are likely due to an imbalanced dataset. Notably, our dataset contains 30,000 entries, but only 6,636 of those are labeled as “1.” 
+
+Next Steps:
+To improve our overall accuracy and reduce the differences in accuracy between 0 and 1 instances, we will use a variety of techniques. First, we will use data augmentation to create new instances of default payment examples (1 instances) so our model is able to better predict those cases. Additionally, the other models we develop will allow us to improve upon these results. Random forest and gradient boosting will allow us to improve our accuracy, F1-score, and ROC-AUC value in further iterations of our project.
+
+Quantitative Metrics:
+![Metrics](image_one.png)
+
+Visualizations:
+![Visual One](image_two.png)
+![Visual Two](image_three.png)
 
 # References
 A. Montevechi, R. Miranda, A. Medeiros, and J. Montevechi, Eds., “Advancing credit risk modelling with Machine Learning: A comprehensive review of the state-of-the-art,” Aug. 2024.
@@ -31,9 +45,6 @@ Jomark Pablo Noriega, Luis Antonio Rivera, and Jose Alfredo Herrera, “Machine 
 
 ‌M. Sitt and T. Wu, “Evaluation of Credit Risk.” Accessed: Oct. 04, 2024. [Online]. Available: https://cs229.stanford.edu/proj2012/SittWu-EvaluationOfCreditRisk.pdf
 
-# Video Link
-https://youtu.be/6M3CsEhZzhw
-
 # Tables
 Gantt Chart: [LINK](https://docs.google.com/spreadsheets/d/1_VUAMo002Tv-8mLRiyFK3bGIlX5s4-en/edit?usp=sharing&ouid=112209367681545806735&rtpof=true&sd=true)
 
@@ -41,11 +52,11 @@ Contribution Table
 
 |Name|Contributions|
 |---|---|
-|Sive|Video Presentation, Potential Results and Discussion|
-|Maha|Video Presentation, Methods|
-|Esther|Introduction, Literature Review, Problem Definition|
-|Avalyn|Methods|
-|Mahibah|Dataset, Github Page|
+|Sive|Visualizations, Results and Discussion, Gantt Chart|
+|Maha|Data Cleaning and logistic regression, Results, Visualizations, Discussion|
+|Esther|Results, Visualizations, Discussion|
+|Avalyn|Data Cleaning and logistic regression, Methods|
+|Mahibah|Data Cleaning and logistic regression, Github pages|
 
 
 
