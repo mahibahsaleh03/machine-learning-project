@@ -1,5 +1,8 @@
 # Machine Learning Project - Credit Card Default Data
 
+# Project Video
+The video for this project is available at [https://youtu.be/T9iZuKjVL4o](https://youtu.be/T9iZuKjVL4o)
+
 # Introduction and Background
 
 1. Evaluation of Credit Risk - [LINK](https://cs229.stanford.edu/proj2012/SittWu-EvaluationOfCreditRisk.pdf)
@@ -19,30 +22,82 @@ Link: https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
 Description: The Default of Credit Card Clients UCI Dataset contains data on credit card holders in Taiwan and aims to predict whether a client will default on their payment. It includes 30,000 observations and 24 features such as demographics (age, education, marital status, gender), credit card usage (bill statements, payment history), and default payment status (whether the client defaulted the next month).
 
 # Methods
-In preparation for our implementation of a logistic regression model, we preprocessed our data set with a few different methods. We addressed missing values by filling categorical columns with their most frequent value and numerical columns with the median to reduce outlier influence. We removed duplicate rows to steer away from potential model bias and removed any rows where all bill and payment amounts were zero. Outliers in key financial columns, including LIMIT_BAL (credit limit), BILL_AMT* (bill amounts over six months), and PAY_AMT* (payment amounts over six months), were handled by excluding values below the 1st percentile and above the 99th percentile. We also scaled the data to ensure that our numerical columns would have a similar scale.
+In preparation for the implementation of our models, we preprocessed our data set with a few different methods. We addressed missing values by filling categorical columns with their most frequent value and numerical columns with the median to reduce outlier influence. We removed duplicate rows to steer away from potential model bias and removed any rows where all bill and payment amounts were zero. Outliers in key financial columns, including LIMIT_BAL (credit limit), BILL_AMT* (bill amounts over six months), and PAY_AMT* (payment amounts over six months), were handled by excluding values below the 1st percentile and above the 99th percentile. We also scaled the data to ensure that our numerical columns would have a similar scale.
 
-As for the model, we chose to implement logistic regression because it is a supervised learning algorithm that is particularly effective with binary classification tasks. We trained the model with a 70-30 train-test split to fully determine its predictive abilities. This model turned out to be simplistic but fairly effective in classifying the data as default and non-default.
+After completing our midterm report, we noticed that our model was not performing well with classifying positive instances of the data because the dataset was imbalanced - notably, our dataset contained 30,000 entries, but only 6,636 of those were labeled as “1.” To remedy this, we utilized synthetic minority oversampling technique (SMOTE) to create a more balanced dataset that our models could learn from.
+
+As for our first model, we chose to implement logistic regression because it is a supervised learning algorithm that is particularly effective with binary classification tasks. We trained the model with a 70-30 train-test split to fully determine its predictive abilities. This model turned out to be simplistic but fairly effective in classifying the data as default and non-default.
+
+For our next model, we chose to implement gradient boosting. This algorithm utilizes an iterative approach that is suitable for capturing non-linear relationships. Also, its prediction performance with small and medium datasets is generally good. For these reasons, we thought that gradient boosting would perform well on our dataset.
+
+Lastly, we implemented a random forest algorithm. We believed this algorithm could perform well due to its inherent capability to handle imbalanced data. It also uses feature importance to guide splits, so we believed this could be beneficial.
 
 # Results and Discussion
-Metrics and Analysis: 
+Analysis of 3+ Algorithms:
 
-Our logistic regression model was found to perform relatively well, but there is still room for improvement. For example, our overall accuracy was 81.4%, which is a significant improvement from random guessing. Additionally, our ROC-AUC score was 0.73, which is not poor considering the possible range of values between 0.5 and 1.0. The graph of the ROC curve allows us to see the relationship between our model predicting true positives and false positives. We see that our ability to correctly predict true positives while keeping the number of false positives low increases sharply until about 0.5 true positives, and then increases more slowly. This curve allows us to see this trade-off and make decisions based on our model motivation. In the context of approving loans, we want to protect banks by not approving loans for possible defaulters, but we also want to protect the customer by not denying loans for reliable candidates. The ROC curve allows us to see the interaction of these two goals.
+Logistic Regression
 
-However, the visualization of our classification report shows that our model consistently performed better when classifying “0” instances, or instances when a customer did not default. The most striking example of this is in our Recall score, which measures the false negatives. Here, 0 instances had a recall of 96%, while 1 instances only scored 29%. These discrepancies are likely due to an imbalanced dataset. Notably, our dataset contains 30,000 entries, but only 6,636 of those are labeled as “1.” 
+Logistic Regression serves as a straightforward, interpretable model that performs reasonably well for the majority class (Class 0), as evidenced by its strong precision and recall metrics for this class. However, its metrics for Class 1, particularly recall and F1-score, are significantly lower, indicating that it struggles to correctly identify defaulters (true positives for Class 1). While the weighted averages for precision, recall, and F1-score suggest decent overall performance, these averages are skewed by the class imbalance. The AUC of 0.727 reflects its moderate ability to differentiate between defaulters and non-defaulters but highlights its limitations in modeling complex, non-linear relationships in the dataset.Logistic Regression’s simplicity ensures fast computation and ease of interpretation, making it a good baseline model for binary classification problems.
 
-Next Steps:
+Gradient Boosting
 
-To improve our overall accuracy and reduce the differences in accuracy between 0 and 1 instances, we will use a variety of techniques. First, we will use data augmentation to create new instances of default payment examples (1 instances) so our model is able to better predict those cases. Additionally, the other models we develop will allow us to improve upon these results. Random forest and gradient boosting will allow us to improve our accuracy, F1-score, and ROC-AUC value in further iterations of our project.
+Gradient Boosting demonstrates a significant leap in performance compared to Logistic Regression, particularly for Class 1. It achieves higher precision, recall, and F1-scores, reflecting its ability to handle data imbalance and complex patterns. The iterative nature of Gradient Boosting enables it to correct errors made in previous iterations, making it highly effective for capturing non-linear relationships in the data. 
 
-Quantitative Metrics:
+Additionally, the ROC-AUC score for Gradient Boosting was 0.767, the highest of the three models. This supports the narrative that Gradient Boosting showcases stronger discriminatory power. This suggests that Gradient Boosting improves precision, recall, and F1-score through its iterative refinement, as well as significantly enhances the model's overall ability to differentiate between defaulters and non-defaulters as measured by the AUC.
 
-![Metrics](image_one.png)
+Although Gradient Boosting’s computational cost and sensitivity to hyperparameter tuning remain challenges, its nuanced handling of minority classes typically makes it advantageous in imbalanced datasets.
+
+Random Forest
+
+Random Forest also outperforms Logistic Regression, with metrics that are closer to Gradient Boosting, albeit slightly lower. The model shows balanced precision, recall, and F1-score for both classes, indicating its robustness. However, the recall for Class 1 is slightly lower than Gradient Boosting, leading to a marginally reduced F1-score for defaulters.The AUC of 0.765 indicates that Random Forest has stronger discriminatory power than Logistic Regression (0.727) and slightly lower than Gradient Boosting (0.767). This suggests that Random Forest is better at distinguishing between defaulters and non-defaulters overall, despite slightly lower metrics for Class 1 compared to Gradient Boosting. This discrepancy may arise from Random Forest’s ensemble approach, which captures a wider range of patterns, even in imbalanced datasets.
+
+Random Forest's ability to rank feature importance can provide valuable insights into the dataset, aiding in interpretability. Additionally, it reduces overfitting by averaging predictions from multiple trees. While it lacks the iterative refinements of Gradient Boosting that specifically target errors in the minority class, its computational efficiency and robustness make it a practical alternative, especially in scenarios with limited resources or less need for extensive hyperparameter tuning.
+
+Comparison of 3+ Algorithms
+
+Class 1 Performance: Gradient Boosting achieves the highest F1-score for Class 1 (0.54), followed closely by Random Forest (0.53) and Logistic Regression (0.49). This demonstrates Gradient Boosting's superior ability to capture patterns in the minority class (Class 1) compared to the other models. Notably, Logistic Regression has the highest recall for Class 1 (0.56), suggesting it identifies more true positives, but this comes at the cost of lower precision (0.43). In contrast, Gradient Boosting strikes a better balance between precision and recall for Class 1.
+
+Overall Metrics (Weighted Average): Random Forest and Gradient Boosting both achieve the highest weighted average F1-score (0.80), with Logistic Regression slightly trailing at 0.75. However, Gradient Boosting stands out with the highest ROC-AUC score (0.7665), indicating stronger overall discriminatory power between the classes. Random Forest’s performance was comparable to Gradient Boosting in almost all metrics, with only slight differences in measurements such as recall or Precision. Logistic Regression is outperformed in all weighted average metrics, and its lower ROC-AUC score reveals limitations in distinguishing between defaulters and non-defaulters on an overall scale. However, it still remains the simplest and fastest model to implement.
+
+Table of Quantitative Metrics:
+
+![Visual_Nine](nine.png)
 
 Visualizations:
 
-![Visual One](image_two.png)
+Logistic Regression:
 
-![Visual Two](image_three.png)
+![Visual One](one.png)
+
+![Visual Two](two.png)
+
+Gradient Boosting:
+
+![Visual Three](three.png)
+
+![Visual Four](four.png)
+
+Random Forest:
+
+![Visual Five](five.png)
+
+![Visual Six](six.png)
+
+Combined Results:
+
+![Visual Seven](seven.png)
+
+![Visual Eight](eight.png)
+
+Best Implementation
+
+Gradient Boosting emerges as the best implementation due to its strong overall performance, achieving a weighted average F1-score of 0.80 and the highest ROC-AUC score (0.7665). Random Forest also performed well on the dataset, losing only slightly to Gradient Boosting on Class 1 performance with a lower F1-score (0.53) compared to Gradient Boosting (0.54). Gradient Boosting balances computational efficiency, interpretability through feature importance, and robust performance for both classes.
+
+Additionally, since Gradient Boosting performs well for Class 1, it is shown to be a good choice in scenarios where minority class identification is critical. In our dataset specifically, being approved or denied for a loan based on default risk can have a large effect on customers’ or banks’ well-being, and the importance of creating accurate models cannot be overstated.
+
+Next Steps:
+
+Reflection upon our first few algorithms and our imbalanced data led us to implement methods like synthetic minority oversampling technique (SMOTE). This did successfully increase the recall for 1 instances in all of our models, however it did have a slight negative effect on our overall accuracy. To address this and improve overall performance, our next steps would include hyperparameter tuning and further feature engineering. This would help increase accuracy and remove less important features from our models. It would also be beneficial to look into other models to see if they could provide additional improvements.
 
 # References
 A. Montevechi, R. Miranda, A. Medeiros, and J. Montevechi, Eds., “Advancing credit risk modelling with Machine Learning: A comprehensive review of the state-of-the-art,” Aug. 2024.
@@ -58,11 +113,11 @@ Contribution Table
 
 |Name|Contributions|
 |---|---|
-|Sive|Visualizations, Results and Discussion, Gantt Chart|
-|Maha|Data Cleaning and logistic regression, Results, Visualizations, Discussion|
-|Esther|Results, Visualizations, Discussion|
-|Avalyn|Data Cleaning and logistic regression, Methods|
-|Mahibah|Data Cleaning and logistic regression, Github pages|
+|Sive|Data augmentation, Visualizations, Gantt Chart|
+|Maha|Video, Comparison of 3+ Algorithms / Models|
+|Esther|Analysis of 3+ Algorithms / Models, Comparison of 3+ Algorithms / Models|
+|Avalyn|Models, Methods, Next Steps|
+|Mahibah|Models, GitHub Page|
 
 
 
